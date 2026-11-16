@@ -1,0 +1,54 @@
+slides > slide {
+  background: #fcf8ef;
+  color: #172a3a;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+slides > slide.title-slide {
+  background: #172a3a;
+  border-left: 22px solid #37ad99;
+}
+
+.title-slide hgroup h1,
+.title-slide hgroup h2,
+.title-slide hgroup p {
+  color: #fcf8ef;
+}
+
+hgroup h2 {
+  color: #172a3a;
+  letter-spacing: -.035em;
+}
+
+slides > slide:not(.title-slide) hgroup {
+  border-bottom: 3px solid #147d73;
+  padding-bottom: 14px;
+}
+
+slides > slide article p,
+slides > slide article li {
+  color: #172a3a;
+}
+
+slides > slide table th {
+  background: #147d73;
+  color: #fff;
+}
+
+slides > slide table td {
+  color: #172a3a;
+}
+
+.summary {
+  color: #124d4b;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 22px;
+}
+
+slides > slide pre {
+  background: #e4eeea;
+  border-left: 4px solid #147d73;
+  font-size: 19px;
+  line-height: 1.22;
+}

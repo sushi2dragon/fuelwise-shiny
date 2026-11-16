@@ -1,0 +1,73 @@
+---
+title: FuelWise
+subtitle: Explore fuel economy
+author: Sarthak
+job: Developing Data Products
+framework: io2012
+highlighter: highlight.js
+hitheme: tomorrow
+widgets: []
+mode: selfcontained
+knit: slidify::knit2slides
+---
+
+```{r setup, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(cache = FALSE)
+```
+
+## What changes your fuel bill?
+
+<div class="summary">Compare how vehicle weight and horsepower affect estimated fuel economy, then see what that could mean for your annual fuel budget.</div>
+
+| You enter | FuelWise shows |
+| --- | --- |
+| Vehicle weight and horsepower | Estimated MPG and a 95% prediction interval |
+| Annual mileage and price per gallon | Estimated annual fuel cost |
+
+The model draws on 32 cars in the historical `mtcars` dataset.
+
+---
+
+## One scenario, calculated in R
+
+3,000 lb · 110 hp · 12,000 miles per year · $4 per gallon
+
+```{r scenario, comment=NA}
+model <- lm(mpg ~ wt + hp, data = mtcars)
+scenario <- data.frame(wt = 3, hp = 110)
+mpg <- unname(predict(model, scenario))
+annual_cost <- 12000 / mpg * 4
+data.frame(MPG = round(mpg, 2),
+           Annual_fuel_cost_USD = round(annual_cost, 2))
+```
+
+FuelWise divides annual miles by estimated MPG to calculate gallons used.
+
+---
+
+## How much can MPG vary?
+
+<div class="summary">The 95% prediction interval describes uncertainty for an individual car with the chosen weight and horsepower.</div>
+
+```{r interval, echo=FALSE, fig.width=8, fig.height=2.3, dpi=110, out.width="88%"}
+bounds <- predict(model, scenario, interval = "prediction")[1, ]
+par(mar = c(4, 1, 1, 1), mgp = c(2.2, .6, 0), family = "sans")
+plot(NA, xlim = c(10, 30), ylim = c(0, 1), xlab = "Miles per gallon",
+     ylab = "", yaxt = "n", bty = "n", col.axis = "#172a3a")
+segments(bounds["lwr"], .45, bounds["upr"], .45, col = "#147d73", lwd = 6)
+points(bounds["fit"], .45, pch = 21, bg = "#172a3a", col = "white", lwd = 2, cex = 2)
+text(bounds[c("lwr", "fit", "upr")], .71,
+     sprintf("%.1f", bounds[c("lwr", "fit", "upr")]), col = "#172a3a")
+```
+
+The data describe 1970s cars. Use the model to explore relationships in that sample.
+
+---
+
+## Try a comparison
+
+1. Open FuelWise and start at 3,000 lb and 110 hp.
+2. Increase the weight and compare the estimated MPG and annual cost.
+3. Use the observed-data plot and built-in help to interpret the result.
+
+From the repository root, run `shiny::runApp("app")` to start the app locally. The Shiny source and this Slidify deck are included with the project.
