@@ -1,6 +1,10 @@
 # FuelWise — Shiny application and reproducible pitch
 
-A complete source package for the Developing Data Products course project. The app uses R's built-in `mtcars` dataset to explore weight, horsepower, predicted MPG, uncertainty, and annual fuel cost.
+A source package for the Developing Data Products course project. The app uses R's built-in `mtcars` dataset to explore weight, horsepower, predicted MPG, uncertainty, and annual fuel cost.
+
+- [Live interactive app](https://sushi2dragon.github.io/fuelwise-shiny/)
+- [Five-slide pitch](https://sushi2dragon.github.io/fuelwise-shiny/pitch/)
+- [GitHub source](https://github.com/sushi2dragon/fuelwise-shiny)
 
 ## GitHub Pages deployment
 
@@ -44,15 +48,16 @@ Official deployment guide: https://docs.posit.co/shinyapps.io/guide/getting_star
 
 ## Publish the source and pitch
 
-Create a GitHub repository containing this folder's files. Keep the pitch's HTML and libraries together. Turn on GitHub Pages for the branch/folder that contains the presentation. Use the deployed page URL for the presentation submission and the repository URL for the source submission. Do not upload `.Rhistory`, account tokens, or deployment records.
+The `main` branch contains the app and presentation source. The `gh-pages` branch contains the generated deployment; GitHub Pages publishes that branch's root. Keep the pitch's HTML and libraries together. Do not upload `.Rhistory`, account tokens, or deployment records.
 
 ## Submission checklist
 
-- Public Shiny application URL: pending account connection and deployment.
-- GitHub source URL: pending repository creation/upload.
-- Five-slide presentation URL: pending publication.
+- Interactive Shinylive app: https://sushi2dragon.github.io/fuelwise-shiny/
+- GitHub source URL: https://github.com/sushi2dragon/fuelwise-shiny
+- Five-slide presentation URL: https://sushi2dragon.github.io/fuelwise-shiny/pitch/
+- Literal RStudio/Shiny-server hosting requirement: still pending a connected hosting account. The GitHub Pages app runs R in the browser.
 
-Local files are ready to run; they are not public submission URLs. Review the app and presentation before submitting them.
+Review the app, presentation, and hosting requirement before submitting them.
 
 ## Verify
 

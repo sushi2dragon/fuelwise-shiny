@@ -70,4 +70,4 @@ The data describe 1970s cars. Use the model to explore relationships in that sam
 2. Increase the weight and compare the estimated MPG and annual cost.
 3. Use the observed-data plot and built-in help to interpret the result.
 
-From the `shiny-project` folder, run `shiny::runApp("app")` to start the app locally. The Shiny source and this Slidify deck are included with the project.
+From the repository root, run `shiny::runApp("app")` to start the app locally. The Shiny source and this Slidify deck are included with the project.
