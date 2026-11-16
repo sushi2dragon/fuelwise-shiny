@@ -1,0 +1,51 @@
+library(shiny)
+
+fluidPage(
+  tags$head(tags$meta(name = "viewport", content = "width=device-width, initial-scale=1"),
+            tags$link(rel = "stylesheet", type = "text/css", href = "style.css")),
+  div(class = "masthead", div(class = "brand", span(class = "brand-mark", "F"), "FuelWise"),
+      span(class = "eyebrow", "A SMALL DATA LAB / MTCARS")),
+  div(class = "hero", p(class = "eyebrow", "LESS GUESSWORK. MORE EXPLORATION."),
+      h1("What shapes fuel economy?"),
+      p("Change a car's weight and power. See an R model turn your inputs into a fuel-economy estimate, with uncertainty in view.")),
+  fluidRow(
+    column(3, div(class = "panel controls", h2("Build a scenario"),
+      p(class = "muted", "Results update automatically."),
+      sliderInput("weight", "Vehicle weight (1,000 lb)", min = 1.5, max = 5.5, value = 3, step = 0.1),
+      sliderInput("horsepower", "Engine power (horsepower)", min = 50, max = 350, value = 110, step = 5),
+      numericInput("miles", "Annual distance (miles)", value = 12000, min = 1000, max = 30000, step = 1000),
+      numericInput("price", "Fuel price (USD / US gallon)", value = 4, min = 1, max = 10, step = 0.1),
+      actionButton("reset", "Reset scenario", class = "btn-default"),
+      hr(), downloadButton("download", "Download scenario", class = "btn-primary"),
+      p(class = "fine", "An educational model of historical cars. Not a forecast for a modern vehicle."))),
+    column(9,
+      uiOutput("metrics"), uiOutput("caution"),
+      div(class = "panel chart-panel", h2("Your scenario in context"),
+          p(class = "muted", "Dots are the 32 observed cars. The line holds horsepower at your selected value; the band is a 95% prediction interval."),
+          plotOutput("economyPlot", height = "350px")),
+      div(class = "panel details-panel", tabsetPanel(id = "details",
+        tabPanel("Start here",
+          h3("Four inputs. One live calculation."),
+          tags$ol(tags$li("Move the weight slider. A value of 3 means 3,000 pounds."),
+                  tags$li("Set horsepower, annual distance, and fuel price. Use US miles and US gallons."),
+                  tags$li("Read the predicted MPG and interval. Annual cost is miles divided by predicted MPG, multiplied by fuel price."),
+                  tags$li("Compare scenarios by changing one input at a time. Reset restores 3,000 lb, 110 hp, 12,000 miles, and $4 per gallon."),
+                  tags$li("Download saves the current inputs, prediction, interval, gallons, and cost as a CSV file.")),
+          p("Try increasing horsepower from 110 to 210 while holding the other inputs fixed. The model's MPG estimate falls and its fuel-cost estimate rises."),
+          h3("Read uncertainty correctly"),
+          p("The 95% prediction interval describes the spread expected for one additional comparable historical car under the model assumptions. It is wider than uncertainty about the mean. The cost is a point estimate, not a guaranteed bill.")),
+        tabPanel("Model & limitations", h3("A transparent model"),
+          tags$pre("lm(mpg ~ wt + hp, data = mtcars)"), verbatimTextOutput("modelSummary"),
+          p("The model is fitted once to all 32 cars. Each input change calls predict() in server.R. No train/test split or external validation is claimed."),
+          p("mtcars comes from the 1974 Motor Trend US magazine, covering 1973-74 models. Weight and power are associated with MPG; these coefficients do not establish cause and effect."),
+          p("Linear regression assumes a suitable linear mean relationship and independent, constant-variance errors; the interval also relies on approximately normal errors. The small historical sample cannot represent today's fleet, driving conditions, maintenance, or hybrid and electric technologies."),
+          p("Slider limits can extend beyond observed values and include unusual combinations. A warning marks extrapolation or a nonpositive estimate; a positive prediction does not prove a combination is realistic."),
+          p("Data: R datasets::mtcars. Source: Henderson and Velleman (1981), Building multiple regression models interactively, Biometrics 37, 391-411.")),
+        tabPanel("Observed data", h3("The data behind the model"),
+          p("MPG uses US gallons; weight is in thousands of pounds; horsepower is gross horsepower."),
+          tableOutput("dataTable"))
+      ))
+    )
+  ),
+  div(class = "footer", "FuelWise / Developing Data Products", span("R + Shiny · 32 historical cars · Reproducible by design"))
+)
